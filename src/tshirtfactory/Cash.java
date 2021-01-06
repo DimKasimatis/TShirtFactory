@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package strategypatterntshirt;
+package tshirtfactory;
 
 import interfaces.IPayment;
 
@@ -11,11 +11,11 @@ import interfaces.IPayment;
  *
  * @author Dim.Kasimatis
  */
-public class MoneyBankTransfer implements IPayment {
+public class Cash implements IPayment {
 
     @Override
     public boolean pay(float amount) {
-        System.out.printf("Payment of amount %s was made via Money / Bank Transfer transaction!\n", amount);
+        System.out.printf("Payment of amount %s was made with Cash!\n", amount);
         return(true);
     }
     
