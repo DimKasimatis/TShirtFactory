@@ -6,6 +6,8 @@
 package tshirtfactory;
 
 import interfaces.IPayment;
+import java.util.ArrayList;
+import java.util.List;
 import models.Color;
 import models.Fabric;
 import models.Size;
@@ -22,42 +24,49 @@ public class TShirtFactory {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        TShirt tshirt1 = new TShirt("MARCO POLO", Color.RED, Size.XS, Fabric.WOOL);
-        TShirt tshirt2 = new TShirt("WOOF LAREN", Color.VIOLET, Size.XXXL, Fabric.CASHMERE);
-        TShirt tshirt3 = new TShirt ("WOOFY LOREN", Color.VIOLET, Size.XS, Fabric.POLYESTER);
+
         TShirtFactory myMainClass = new TShirtFactory();
-        
-        // CreditDebitCard
-        IPayment payment = new CreditDebitCard();
-        myMainClass.makeAnOrder(tshirt1, payment);
+        List<TShirt> tshirts = myMainClass.makeAllCombinations();
 
-        // MoneyBankTransfer
-        payment = new MoneyBankTransfer();
-        myMainClass.makeAnOrder(tshirt2, payment);
+        myMainClass.makeAnOrder(tshirts.get(20), new CreditDebitCard());
+        myMainClass.makeAnOrder(tshirts.get(20), new Cash());
+        myMainClass.makeAnOrder(tshirts.get(20), new MoneyBankTransfer());
+        myMainClass.makeAnOrder(tshirts.get(40), new MoneyBankTransfer());
 
-        // Cash
-        payment = new Cash();
-        myMainClass.makeAnOrder(tshirt3, payment);
     }
 
     public void makeAnOrder(TShirt tshirt, IPayment payment) {
         System.out.println(tshirt);
-//        System.out.println(payment.getClass().getName());
-        if (payment.getClass().getName().equals("strategypatterntshirt.CreditDebitCard")) {
+        if (payment.getClass().getName().equals("tshirtfactory.CreditDebitCard")) {
             payment.pay(tshirt.getFabric().getUnitPrice() + tshirt.getColor().getUnitPrice()
-                    + tshirt.getSize().getUnitPrice() + 5.0f);
+                    + tshirt.getSize().getUnitPrice());
         }
-//        System.out.println("");
-        if (payment.getClass().getName().equals("strategypatterntshirt.MoneyBankTransfer")) {
+        if (payment.getClass().getName().equals("tshirtfactory.MoneyBankTransfer")) {
             payment.pay(tshirt.getFabric().getUnitPrice() + tshirt.getColor().getUnitPrice()
-                    + tshirt.getSize().getUnitPrice() + 3.0f);
+                    + tshirt.getSize().getUnitPrice());
         }
-
-        if (payment.getClass().getName().equals("strategypatterntshirt.Cash")) {
+        if (payment.getClass().getName().equals("tshirtfactory.Cash")) {
             payment.pay(tshirt.getFabric().getUnitPrice() + tshirt.getColor().getUnitPrice()
                     + tshirt.getSize().getUnitPrice());
         }
 
+    }
+
+
+    public static List<TShirt> makeAllCombinations() {
+        RandomName rnd = new RandomName();
+        List<TShirt> tshirts = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            Color color = Color.values()[i];
+            for (int j = 0; j < 7; j++) {
+                Size size = Size.values()[j];
+                for (int k = 0; k < 7; k++) {
+                    Fabric fabric = Fabric.values()[k];
+                    tshirts.add(new TShirt(rnd.randomName(), color, size, fabric));
+                }
+            }
+        }
+        return (tshirts);
     }
 
 }

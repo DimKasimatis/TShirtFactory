@@ -15,7 +15,7 @@ public class MoneyBankTransfer implements IPayment {
 
     @Override
     public boolean pay(float amount) {
-        System.out.printf("Payment of amount %s was made via Money / Bank Transfer transaction!\n", amount);
+        System.out.printf("Payment of amount %s was made via Money / Bank Transfer transaction!\n", amount + 3.0f);
         return(true);
     }
     
